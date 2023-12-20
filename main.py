@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
+import pickle
 
 df = pd.read_csv('BankNote_Authentication.csv')
 #print(df)
@@ -34,4 +35,11 @@ print('*'*10)
 print(f'Accuracy after applying Random forest classifier is {accuracy:.2%}')
 print('-'*10)
 print('\n')
+
+#create a pickle file using serialization 
+
+pickle_out = open("classifier.pkl", "wb")
+pickle.dump(classifier, pickle_out)
+pickle_out.close()
+
 
