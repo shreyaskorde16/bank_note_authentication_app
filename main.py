@@ -42,4 +42,6 @@ pickle_out = open("classifier.pkl", "wb")
 pickle.dump(classifier, pickle_out)
 pickle_out.close()
 
+print(f'The predictions made by the classier is {classifier.predict([[2, 3, 4, 1]])}')
+
 
