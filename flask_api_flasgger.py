@@ -6,6 +6,9 @@
 
 #----------------------------------------------------------
 
+
+# to run the code after starting flask type "/apidocs" in webaddress like http://127.0.0.1:5000/apidocs
+
 from flask import Flask, request
 import pandas as pd
 import numpy as np
@@ -23,7 +26,7 @@ classifier = pickle.load(pickle_in)
 def welcome():
     return 'welcome ALL'
 
-@app.route('/predict', method=['GET'])     #bydefault GET method
+@app.route('/predict')     #bydefault GET method
 def predictiom_note_authentication():
     
     """Let's Start Authentication of bank notes
@@ -51,23 +54,46 @@ def predictiom_note_authentication():
         200: 
             description: The output values
     """
+    variance=request.args.get('variance')
+    skewness=request.args.get('skewness')
+    curtosis=request.args.get('curtosis')
+    entropy=request.args.get('entropy')
+    prediction = classifier.predict([[variance, skewness, curtosis, entropy]])
     
   
-    return 'The predicted value is ' + str(prediction)
+    return str(prediction)
 
 @app.route('/predict_file', methods=["POST"])
 def predictiom_note_authentication_file():
+    
+    """Let's Start Authentication of bank notes using Test file
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: file
+        in: formData
+        type: file
+        required: true
+      
+    responses:
+        200: 
+            description: The output values for he file are
+    """
     df_test=pd.read_csv(request.files.get("file"))
+    print(df_test.head())
     predictions=classifier.predict(df_test)
     
-    return 'The predicted values are ' + str(list(predictions))
+    return str(list(predictions))
     
     
 
 
 
-
+# to run the code after starting flask type "/apidocs" in webaddress like http://127.0.0.1:5000/apidocs
 
 
 if __name__=='__main__':
     app.run(debug=True)
+
+
+# to run the code after starting flask type "/apidocs" in webaddress like http://127.0.0.1:5000/apidocs
